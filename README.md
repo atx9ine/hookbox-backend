@@ -1,58 +1,131 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<div align="center">
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<img src="./assets/hookbox_logo.png" alt="HookBox" width="420" />
 
-## About Laravel
+**High-performance webhook inspection and relay platform.**
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Capture, inspect, and forward HTTP requests with real-time monitoring and delivery analytics.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+[Features](#features) · [How It Works](#how-it-works) · [Getting Started](#getting-started) · [Usage](#usage) · [Contributing](#contributing)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+</div>
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Overview
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+HookBox gives you a unique webhook URL in seconds. Point any service at it, and HookBox captures every incoming request so you can inspect it in detail, then relay it to the destination of your choice, with full visibility into whether delivery succeeded.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+Use it to debug third-party integrations, test payment or messaging callbacks, or fan webhooks out to other services without writing glue code.
 
-## Agentic Development
+> [!NOTE]
+> **HookBox is under active development.** Features and screenshots shown here may change, and some functionality is not yet available.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Features
 
-```bash
-composer require laravel/boost --dev
+- **Instant webhook URLs**: generate unique endpoints on demand
+- **Request inspection**: view method, headers, query params, and body for every captured request
+- **Relay and forwarding**: send captured requests to one or more destination URLs
+- **Real-time monitoring**: watch requests arrive live as they happen
+- **Delivery analytics**: track success, failure, status codes, and response times
+- **Replay**: re-send any captured request to a destination
 
-php artisan boost:install
+## How It Works
+
+```
+┌──────────────┐     ┌──────────────────────┐     ┌──────────────────┐
+│ Third-party  │────▶│       HookBox        │────▶│   Your service   │
+│   service    │     │  capture · inspect   │     │   (destination)  │
+└──────────────┘     │  relay · analytics   │     └──────────────────┘
+                     └──────────────────────┘
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+1. **Generate** a unique webhook URL.
+2. **Receive** requests sent to that URL.
+3. **Inspect** the payload, headers, and metadata in real time.
+4. **Relay** the request to your destination and track the delivery result.
+
+## Getting Started
+
+### Prerequisites
+
+- Add your runtime and tooling requirements here (e.g. PHP 8.3+, Node.js 20+, a database)
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/<your-username>/hookbox.git
+cd hookbox
+
+# Install dependencies
+# <add your install commands>
+
+# Configure environment
+cp .env.example .env
+
+# Run the app
+# <add your start command>
+```
+
+### Configuration
+
+| Variable | Description |
+| --- | --- |
+| `APP_URL` | Public base URL used to build webhook endpoints |
+| `DB_*` | Database connection settings |
+
+Update this table to match your `.env.example`.
+
+## Usage
+
+### 1. Create an endpoint
+
+Create a new webhook from the dashboard. You will receive a URL like:
+
+```
+https://your-domain.com/hooks/abc123xyz
+```
+
+### 2. Send a test request
+
+```bash
+curl -X POST https://your-domain.com/hooks/abc123xyz \
+  -H "Content-Type: application/json" \
+  -d '{"event": "payment.success", "amount": 5000}'
+```
+
+### 3. Inspect and relay
+
+Open the request in the dashboard to view its full details, then set a destination URL to forward it. Delivery status and response time are recorded for every attempt.
+
+## Screenshots
+
+### Dashboard
+
+An overview of your webhook traffic: total endpoints, requests received, success and failure rates, and a live feed of recent requests with method, endpoint, status, and source.
+
+![HookBox dashboard](./assets/dashboard.png)
+
+> Preview of the dashboard design. The UI is still being built and may change.
+
+## Roadmap
+
+- [ ] Signature verification for popular providers
+- [ ] Retry policies with backoff
+- [ ] Multiple destinations per endpoint
+- [ ] Team workspaces
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Contributions are welcome.
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/your-feature`
+3. Commit your changes: `git commit -m "Add your feature"`
+4. Push the branch: `git push origin feature/your-feature`
+5. Open a pull request
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Distributed under the MIT License. See [`LICENSE`](./LICENSE) for details.
